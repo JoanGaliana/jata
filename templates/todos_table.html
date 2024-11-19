@@ -1,0 +1,46 @@
+<h1>Todo</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Completed</th>
+        <th>Task</th>
+    </tr>
+
+    </thead>
+    <tbody>
+    {% for todo in todos %}
+    <tr>
+        <td>{{todo.id}}</td>
+        <td>
+            <form action="/todo/modify" method="post">
+                <input type="hidden" name="id" value="{{todo.id}}">
+                <input type="hidden" name="text" value="{{todo.text}}">
+                <label>
+                    <input type="checkbox" name="completed" {% if todo.completed %} checked {% endif %}
+                           value="{{!todo.completed}}" onChange="this.form.submit()">
+                </label>
+            </form>
+        </td>
+        <td>{{todo.text}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<form method="post" action="/todo/create">
+    <label for="textInput">
+        Text:
+    </label>
+    <input type="text" name="text" id="textInput">
+    <input type="submit">
+</form>
+
+<script>
+    function toggleCompleted(event) {
+        console.log(event)
+        event.target.value = event.target.value === "false";
+        event.target.form.submit();
+    }
+</script>
